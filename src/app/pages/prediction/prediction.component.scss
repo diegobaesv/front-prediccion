@@ -1,0 +1,44 @@
+
+div.datos-resumen {
+    p.label{
+        font-size: 0.9rem;
+    }
+    p.value {
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+    div.input-datos{
+        background-color: blue;
+        
+    }
+}
+
+div.container-prediccion{
+    background-color: #33B5E5;
+    padding: 0.5rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    p{
+        margin: 0px;
+    }
+    p.porcentaje{
+        font-size: 1rem;
+        font-weight: bold;
+    }
+
+    p.meses{
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+
+    p.felicidades{
+        font-size: 1.6rem;
+        font-weight: bold;
+        text-align: center;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+    p.recomendaciones{
+        text-align: justify;
+    }
+}

@@ -1,1 +1,72 @@
-<p>prediction works!</p>
+<p>INGRESO DE DATOS</p>
+
+<div class="container-div-generic">
+    <div class="datos-resumen grid">
+        <div class="flex justify-content-between align-items-end col-12 lg:col-3 ">
+            <p class="label">Presión Arterial</p>
+            <p class="value">83 LPM</p>
+        </div>
+        <div class="flex justify-content-between align-items-end col-12 lg:col-3 ">
+            <p class="label">Pasos Realizados</p>
+            <p class="value">6042 pasos</p>
+        </div>
+        <div class="flex justify-content-between align-items-end col-12 lg:col-3 ">
+            <p class="label">Nivel Sueño</p>
+            <p class="value">5h</p>
+        </div>
+        <div class="flex justify-content-between align-items-end col-12 lg:col-3 ">
+            <p class="label">Nivel Estrés</p>
+            <p class="value">Leve</p>
+        </div>
+    </div>
+</div>
+
+
+<div class="container-div-generic grid">
+    <div class="col-12 lg:col-3 ">
+        <div class="grid">
+            <div class="col-6">
+                <p class="label">¿Cuál es tu Peso?</p>
+            </div>
+            <div class="col-6">
+                <input class="w-full" type="number" pInputText />
+            </div>
+        </div>
+
+    </div>
+    <div class="col-12 lg:col-3 ">
+        <div class="grid">
+            <div class="col-6">
+                <p class="label">¿Cuántos cigarrillos consumió la última semana?</p>
+            </div>
+            <div class="col-6">
+                <input class="w-full"  type="number" pInputText />
+            </div>
+        </div>
+
+    </div>
+    <div class="col-12 lg:col-3 ">
+        <div class="grid">
+            <div class="col-6">
+                <p class="label">¿Cuántos vasos de alcohol consumió a la semana?</p>
+            </div>
+            <div class="col-6">
+                <input class="w-full"  type="number" pInputText />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<p-button class="floating-button" [style]="{'width.%': 100, 'color':'white'}" size="large" severity="info" label="Predecir ahora" />
+
+<div class="container-prediccion">
+    <div class="grid">
+        <p class="col-6 porcentaje">PREDICCIÓN AL 96%</p>
+        <p class="col-6 meses">+8 Meses</p>
+    </div>
+    
+    <p class="felicidades">¡Felicidades!<br>Se encuentra en buen estado de Salud.</p>
+    <p class="recomendaciones">Puede seguir las siguientes recomendaciones para reducir el riesgo de sufrir una enfermedad cardiovascular <b>Ver</b></p>
+
+</div>
