@@ -21,3 +21,15 @@ div.datos-resumen {
         font-weight: bold;
     }
 }
+
+.floating-button {
+    position: fixed;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%; 
+    z-index: 1000;
+    
+}

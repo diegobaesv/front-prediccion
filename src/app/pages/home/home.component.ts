@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 
 
@@ -11,4 +12,12 @@ import { ButtonModule } from 'primeng/button';
 })
 export class HomeComponent {
 
+  constructor(
+    private router:Router
+  ){
+  }
+
+  onClickNuevaPrediccion(){
+    this.router.navigate(['/principal/prediction'])
+  }
 }
