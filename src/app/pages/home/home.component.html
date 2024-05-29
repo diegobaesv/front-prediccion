@@ -1,1 +1,43 @@
-<p>home works!</p>
+<div class="container-fecha">
+    <p class="fecha-dia-semana">VIERNES</p>
+    <p class="fecha-dia-mes">24 MAYO</p>
+</div>
+
+<div class="container-div-generic">
+    <div class="datos-resumen grid">
+        <div class="col-6 lg:col-3 ">
+            <p class="label">Presión Arterial</p>
+            <p class="value">83 LPM</p>
+        </div>
+        <div class="col-6 lg:col-3 ">
+            <p class="label">Pasos Realizados</p>
+            <p class="value">6042 pasos</p>
+        </div>
+        <div class="col-6 lg:col-3 ">
+            <p class="label">Nivel Sueño</p>
+            <p class="value">5h</p>
+        </div>
+        <div class="col-6 lg:col-3 ">
+            <p class="label">Nivel Estrés</p>
+            <p class="value">Leve</p>
+        </div>
+    </div>
+</div>
+
+<p-button icon="pi pi-sync" [style]="{'width.%': 100, 'color':'white'}" size="large" severity="info" label="Sincronizar" />
+
+<div class="container-div-generic">
+    <p style="margin-bottom: 1.5rem;">PREDDICCIONES REALIZADAS</p>
+    <p style="text-align: center; font-weight: bold;">PREDDICCIÓN AL 96%</p>
+    <div style="display: flex; justify-content: space-between;">
+        <p>24 de mayo 2024</p>
+        <p>+8 Meses</p>
+    </div>
+    <div style="display: flex; justify-content: space-between;">
+        <p>24 de mayo 2024</p>
+        <p>7 Meses</p>
+    </div>
+</div>
+
+<p-button [style]="{'width.%': 100, 'color':'white', 'margin-top':'250px'}" size="large" severity="info" label="Nueva predicción" />
+

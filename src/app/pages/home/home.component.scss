@@ -1,0 +1,23 @@
+div.container-fecha{
+    p {
+        margin: 0px;
+        font-weight: bold;
+        &.fecha-dia-semana{
+            font-size: 1rem;
+        }
+        &.fecha-dia-mes{
+            font-size: 1.5rem;
+        }
+    }
+}
+
+
+div.datos-resumen {
+    p.label{
+        font-size: 0.9rem;
+    }
+    p.value {
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+}

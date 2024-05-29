@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './prediction.component.html',
-  styleUrl: './prediction.component.css'
+  styleUrl: './prediction.component.scss'
 })
 export class PredictionComponent {
 

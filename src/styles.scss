@@ -1,0 +1,21 @@
+@import 'styles/variables';
+@import "primeicons/primeicons.css";
+
+
+body{
+    background-color: $background-color-body;
+    padding: 1rem;
+    //color: white;
+}
+
+
+div.container-div-generic{
+    background-color: $background-color-div;
+    padding: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 1.5rem;
+    p {
+        margin: 0px;
+    }
+}
