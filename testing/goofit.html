@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Google Fit Integration</title>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script>
+      function onLoad() {
+        gapi.load('auth2', function() {
+          gapi.auth2.init({
+            client_id: '37679064495-uld3q9730hfldk8tbs2ue7viaj3kt0st.apps.googleusercontent.com',
+            scope: 'https://www.googleapis.com/auth/fitness.activity.read https://www.googleapis.com/auth/fitness.body.read',
+             plugin_name: "hello"
+          }).then(function () {
+            console.log('Google Auth initialized.');
+          }).catch(function (error) {
+            console.error('Error initializing Google Auth:', error);
+          });
+        });
+      }
+
+      function signIn() {
+  const auth2 = gapi.auth2.getAuthInstance();
+  auth2.signIn().then(function(user) {
+    const profile = user.getBasicProfile();
+    const authResponse = user.getAuthResponse();
+    console.log('ID: ' + profile.getId());
+    console.log('Name: ' + profile.getName());
+    console.log('Email: ' + profile.getEmail());
+    console.log('Access Token: ' + authResponse.access_token);
+    getFitnessData(authResponse.access_token);
+  }).catch(function (error) {
+    if (error.error === 'popup_closed_by_user') {
+      console.log(error);
+      console.log('The user closed the popup before completing the sign-in.');
+      // Optionally, you can show a message to the user and provide a way to retry
+      alert('The sign-in popup was closed. Please try again.');
+    } else {
+      console.error('Error during sign-in:', error);
+    }
+  });
+}
+
+
+      function getFitnessData(accessToken) {
+        fetch('https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate', {
+          method: 'POST',
+          headers: {
+            'Authorization': 'Bearer ' + accessToken,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            "aggregateBy": [{
+              "dataTypeName": "com.google.step_count.delta",
+              "dataSourceId": "derived:com.google.step_count.delta:com.google.android.gms:estimated_steps"
+            }],
+            "bucketByTime": { "durationMillis": 86400000 },
+            "startTimeMillis": 1585699200000, // Start time in milliseconds
+            "endTimeMillis": 1585785600000    // End time in milliseconds
+          })
+        })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+          // Process and display the data
+        })
+        .catch(error => {
+          console.error('Error fetching fitness data: ', error);
+        });
+      }
+    </script>
+</head>
+<body onload="onLoad()">
+    <button onclick="signIn()">Sign in with Google</button>
+    <div id="data"></div>
+</body>
+</html>
