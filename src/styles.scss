@@ -5,7 +5,8 @@
 body{
     background-color: $background-color-body;
     padding: 1rem;
-    //color: white;
+    height: 100vh;
+    margin:0px;
 }
 
 
@@ -14,7 +15,7 @@ div.container-div-generic{
     padding: 1rem;
     margin-top: 1rem;
     margin-bottom: 1rem;
-    border-radius: 1.5rem;
+    border-radius: 1rem;
     
     p {
         margin: 0px;

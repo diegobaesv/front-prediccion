@@ -1,3 +1,5 @@
+<app-header></app-header>
+
 <div class="container-fecha">
     <p class="fecha-dia-semana">VIERNES</p>
     <p class="fecha-dia-mes">24 MAYO</p>
@@ -24,7 +26,7 @@
     </div>
 </div>
 
-<p-button icon="pi pi-sync" [style]="{'width.%': 100, 'color':'white'}" size="large" severity="info" label="Sincronizar" />
+<p-button (onClick)="onClickSincronizar()" icon="pi pi-sync" [style]="{'width.%': 100, 'color':'white'}" size="large" severity="info" label="Sincronizar" />
 
 <div class="container-div-generic">
     <p style="margin-bottom: 1.5rem;">PREDDICCIONES REALIZADAS</p>

@@ -1,0 +1,9 @@
+<div *ngIf="errorMessages.length == 0">
+    <p >Procesando autenticación...</p>
+</div>
+
+<div *ngIf="errorMessages.length > 0">
+    <p-messages [(value)]="errorMessages" [closable]="false" [style]="{'text-wrap': 'wrap','overflow-wrap':'anywhere'}"  />
+    <p-button (click)="onClickVolverInicio()" class="floating-button" [style]="{'width.%': 100, 'color':'white'}" severity="info" label="Volver al inicio" />
+
+</div>
