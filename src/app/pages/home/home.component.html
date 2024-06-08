@@ -9,24 +9,24 @@
     <div class="datos-resumen grid">
         <div class="col-6 lg:col-3 ">
             <p class="label">Presión Arterial</p>
-            <p class="value">83 LPM</p>
+            <p class="value">{{presionArterialUlt? presionArterialUlt.value + ' LPM':'--' }}</p>
         </div>
         <div class="col-6 lg:col-3 ">
             <p class="label">Pasos Realizados</p>
-            <p class="value">6042 pasos</p>
+            <p class="value">{{pasosRealizadosUlt? pasosRealizadosUlt.value + ' pasos':'--' }}</p>
         </div>
         <div class="col-6 lg:col-3 ">
             <p class="label">Nivel Sueño</p>
-            <p class="value">5h</p>
+            <p class="value">{{nivelSuenoUlt ? nivelSuenoUlt.value + '%' : '--' }}</p>
         </div>
         <div class="col-6 lg:col-3 ">
             <p class="label">Nivel Estrés</p>
-            <p class="value">Leve</p>
+            <p class="value">{{nivelEstresUlt ? nivelEstresUlt.value +'%':'--'}}</p>
         </div>
     </div>
 </div>
 
-<p-button (onClick)="onClickSincronizar()" icon="pi pi-sync" [style]="{'width.%': 100, 'color':'white'}" size="large" severity="info" label="Sincronizar" />
+<p-button  [disabled]="loading"  (onClick)="onClickSincronizar()" icon="pi pi-sync" [style]="{'width.%': 100, 'color':'white'}" size="large" severity="info" label="Sincronizar" />
 
 <div class="container-div-generic">
     <p style="margin-bottom: 1.5rem;">PREDDICCIONES REALIZADAS</p>
@@ -41,6 +41,6 @@
     </div>
 </div>
 
-<p-button (onClick)="onClickNuevaPrediccion()" class="floating-button" [style]="{'width.%': 100, 'color':'white'}" size="large" severity="info" label="Nueva predicción" />
+<p-button   (onClick)="onClickNuevaPrediccion()" class="floating-button" [style]="{'width.%': 100, 'color':'white'}" size="large" severity="info" label="Nueva predicción" />
 
 

@@ -10,9 +10,9 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     catchError((error: HttpErrorResponse) => {
       if (error.status === 401) {
         // Borrar la cache de localStorage
-        //localStorage.clear();
+        localStorage.clear();
         // Redirigir al login
-        //router.navigate(['/app/login']);
+        router.navigate(['/app/login']);
         console.log('ERROR PETICION',error)
       }
       return throwError(() => error);
