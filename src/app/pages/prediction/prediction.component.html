@@ -33,7 +33,7 @@
                 <p class="label">¿Cuál es tu Peso?</p>
             </div>
             <div class="col-6">
-                <input class="w-full" type="number" pInputText />
+                <input class="w-full" [(ngModel)]="peso" type="number" pInputText />
             </div>
         </div>
 
@@ -45,7 +45,7 @@
             </div>
             <div class="col-6">
                 <p-selectButton class="sb-bajo-normal-alto"
-                    [options]="fumarOpciones" 
+                    [options]="opcionesNivel" 
                     [(ngModel)]="fumarValue" 
                     optionLabel="label" 
                     optionValue="value" />
@@ -60,8 +60,8 @@
             </div>
             <div class="col-6">
                 <p-selectButton class="sb-bajo-normal-alto"
-                    [options]="fumarOpciones" 
-                    [(ngModel)]="fumarValue" 
+                    [options]="opcionesNivel" 
+                    [(ngModel)]="beberValue" 
                     optionLabel="label" 
                     optionValue="value" />
             </div>
@@ -70,15 +70,17 @@
     </div>
 </div>
 
-<p-button class="floating-button" [style]="{'width.%': 100, 'color':'white'}" size="large" severity="info" label="Predecir ahora" />
-
-<div class="container-prediccion">
+<p-button (onClick)="onClickPredecir()" class="floating-button" [style]="{'width.%': 100, 'color':'white'}" size="large" severity="info" label="Predecir ahora" />
+<p style="color: red; text-align: center; font-weight: bold;">{{error}}</p>
+<div *ngIf="predictValue" class="container-prediccion">
     <div class="grid">
-        <p class="col-6 porcentaje">PREDICCIÓN AL 96%</p>
-        <p class="col-6 meses">+8 Meses</p>
+        <!-- <p class="col-6 porcentaje">PREDICCIÓN AL 96%</p> -->
+        <p class="col-6 meses">+{{predictValue}} Meses</p>
     </div>
     
-    <p class="felicidades">¡Felicidades!<br>Se encuentra en buen estado de Salud.</p>
-    <p class="recomendaciones">Puede seguir las siguientes recomendaciones para reducir el riesgo de sufrir una enfermedad cardiovascular <b>Ver</b></p>
+    <p *ngIf="predictValue >= 8" class="felicidades"><b>¡FELICIDADES!</b><br>Se encuentra en buen estado de Salud.</p>
+    <p *ngIf="predictValue >= 5 && predictValue <=7" class="felicidades"><b>¡ATENCION!</b><br>Considere hacerse un chequeo de rutina. Es necesario prevenir antes que lamentar.</p>
+    <p *ngIf="predictValue < 5" class="felicidades"><b>¡ALERTA!</b><br>Su estado de salud es critico. Debe acudir a un medico para descartar cualquier enfermedad cardiovascular.</p>
+    <!-- <p class="recomendaciones">Puede seguir las siguientes recomendaciones para reducir el riesgo de sufrir una enfermedad cardiovascular <b>Ver</b></p> -->
 
 </div>

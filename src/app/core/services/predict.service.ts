@@ -24,9 +24,11 @@ export class PredictService {
             smoking_consumption_level: nivelFumar,
             drink_consumption_level: nivelBebida
         }
+
+        console.log('predict::body',body)
         
         const observable = this.http.post(
-            'https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate', 
+            'http://127.0.0.1:5000/predict', 
             body
         );
         return await lastValueFrom(observable);
