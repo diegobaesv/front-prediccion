@@ -42,3 +42,14 @@ div.container-prediccion{
         text-align: justify;
     }
 }
+
+
+
+::ng-deep .sb-bajo-normal-alto{
+    div{
+        padding: 7px;
+        span{
+            font-size: small;
+        }
+    }
+}

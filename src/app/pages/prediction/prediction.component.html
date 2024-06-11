@@ -1,22 +1,26 @@
+
+<app-header></app-header>
+
+
 <p>INGRESO DE DATOS</p>
 
 <div class="container-div-generic">
     <div class="datos-resumen grid">
         <div class="flex justify-content-between align-items-end col-12 lg:col-3 ">
             <p class="label">Presión Arterial</p>
-            <p class="value">83 LPM</p>
+            <p class="value">{{presionArterialUlt? presionArterialUlt.value + ' LPM':'--' }}</p>
         </div>
         <div class="flex justify-content-between align-items-end col-12 lg:col-3 ">
             <p class="label">Pasos Realizados</p>
-            <p class="value">6042 pasos</p>
+            <p class="value">{{pasosRealizadosUlt? pasosRealizadosUlt.value + ' pasos':'--' }}</p>
         </div>
         <div class="flex justify-content-between align-items-end col-12 lg:col-3 ">
             <p class="label">Nivel Sueño</p>
-            <p class="value">5h</p>
+            <p class="value">{{nivelSuenoUlt ? nivelSuenoUlt.value + '%' : '--' }}</p>
         </div>
         <div class="flex justify-content-between align-items-end col-12 lg:col-3 ">
             <p class="label">Nivel Estrés</p>
-            <p class="value">Leve</p>
+            <p class="value">{{nivelEstresUlt ? nivelEstresUlt.value +'%':'--'}}</p>
         </div>
     </div>
 </div>
@@ -40,7 +44,11 @@
                 <p class="label">¿Cuántos cigarrillos consumió la última semana?</p>
             </div>
             <div class="col-6">
-                <input class="w-full"  type="number" pInputText />
+                <p-selectButton class="sb-bajo-normal-alto"
+                    [options]="fumarOpciones" 
+                    [(ngModel)]="fumarValue" 
+                    optionLabel="label" 
+                    optionValue="value" />
             </div>
         </div>
 
@@ -51,7 +59,11 @@
                 <p class="label">¿Cuántos vasos de alcohol consumió a la semana?</p>
             </div>
             <div class="col-6">
-                <input class="w-full"  type="number" pInputText />
+                <p-selectButton class="sb-bajo-normal-alto"
+                    [options]="fumarOpciones" 
+                    [(ngModel)]="fumarValue" 
+                    optionLabel="label" 
+                    optionValue="value" />
             </div>
         </div>
 

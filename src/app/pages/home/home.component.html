@@ -29,8 +29,9 @@
 <p-button  [disabled]="loading"  (onClick)="onClickSincronizar()" icon="pi pi-sync" [style]="{'width.%': 100, 'color':'white'}" size="large" severity="info" label="Sincronizar" />
 
 <div class="container-div-generic">
-    <p style="margin-bottom: 1.5rem;">PREDDICCIONES REALIZADAS</p>
-    <p style="text-align: center; font-weight: bold;">PREDDICCIÓN AL 96%</p>
+    <p class="mb-2 font-bold text-center">PREDDICCIONES REALIZADAS</p>
+    <p class="text-center">-----------</p>
+    <!-- <p style="text-align: center; font-weight: bold;">PREDDICCIÓN AL 96%</p>
     <div style="display: flex; justify-content: space-between;">
         <p>24 de mayo 2024</p>
         <p>+8 Meses</p>
@@ -38,9 +39,9 @@
     <div style="display: flex; justify-content: space-between;">
         <p>24 de mayo 2024</p>
         <p>7 Meses</p>
-    </div>
+    </div> -->
 </div>
 
-<p-button   (onClick)="onClickNuevaPrediccion()" class="floating-button" [style]="{'width.%': 100, 'color':'white'}" size="large" severity="info" label="Nueva predicción" />
+<p-button  [disabled]="loading"  (onClick)="onClickNuevaPrediccion()" class="floating-button" [style]="{'width.%': 100, 'color':'white'}" size="large" severity="info" label="Nueva predicción" />
 
 

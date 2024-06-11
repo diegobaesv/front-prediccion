@@ -59,6 +59,10 @@ export class HomeComponent implements OnInit {
 
   async onClickSincronizar() {
     this.loading = true;
+    this.presionArterialUlt = undefined;
+    this.pasosRealizadosUlt= undefined;
+    this.nivelSuenoUlt= undefined;
+    this.nivelEstresUlt= undefined;
     const data: any = await this.googleApiService.getFitnessDataSources(this.auth.access_token);
 
     const datasourcesObj: any[] = data.dataSource;
