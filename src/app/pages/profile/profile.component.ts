@@ -29,7 +29,7 @@ export class ProfileComponent implements OnInit {
 
   fechaNacimiento: string='20/04/1987';
   estatura: number = 170;
-  peso: number = 870;
+  peso: number = 70;
   googleFit: boolean = true;
 
 
