@@ -35,6 +35,7 @@ export class PredictionComponent implements OnInit {
   beberValue: string = 'off';
 
   peso?: number;
+  horasDormir?: number;
 
   predictValue?:number;
 
@@ -58,8 +59,24 @@ export class PredictionComponent implements OnInit {
     this.predictValue = undefined;
     this.error = '';
 
-    if( !this.peso || this.peso <= 0 ) {
+    if( !this.peso) {
       this.error= 'Debe ingresar un peso';
+      return;
+    }
+
+    if( !this.horasDormir) {
+      this.error= 'Debe ingresar horas de sueño';
+      return;
+    }
+
+
+    if( this.peso > 500 ) {
+      this.error= 'Debe ingresar un peso correcto';
+      return;
+    }
+
+    if( this.horasDormir > 24 ) {
+      this.error= 'Debe ingresar un horario de sueño correcto';
       return;
     }
 
@@ -73,15 +90,25 @@ export class PredictionComponent implements OnInit {
       return;
     }
 
-    
+
+    const pasosRealizados = this.pasosRealizadosUlt?.value  || 0;
+
+    let nivelPasos = 0;
+    if(pasosRealizados < 3000) {
+      nivelPasos=1;
+    } else if(pasosRealizados >= 3000 && pasosRealizados < 6000) {
+      nivelPasos=2;
+    } else {
+      nivelPasos=3;
+    }
 
     const  resp :any= await this.predictService.predict( 
       60, 
       1.78, 
       this.peso||0, 
       this.presionArterialUlt?.value || 0,
-      this.pasosRealizadosUlt?.value || 0, 
-      1, 
+      nivelPasos, 
+      this.horasDormir, 
       this.getValorNivel(this.fumarValue),
       this.getValorNivel(this.beberValue)
     );

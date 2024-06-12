@@ -7,7 +7,7 @@
 <div class="container-div-generic">
     <div class="datos-resumen grid">
         <div class="flex justify-content-between align-items-end col-12 lg:col-3 ">
-            <p class="label">Presión Arterial</p>
+            <p class="label">Ritmo Cardiaco</p>
             <p class="value">{{presionArterialUlt? presionArterialUlt.value + ' LPM':'--' }}</p>
         </div>
         <div class="flex justify-content-between align-items-end col-12 lg:col-3 ">
@@ -33,7 +33,7 @@
                 <p class="label">¿Cuál es tu Peso?</p>
             </div>
             <div class="col-6">
-                <input class="w-full" [(ngModel)]="peso" type="number" pInputText />
+                <input class="w-full" placeholder="Max 500kg" [maxlength]="4" max="500" [(ngModel)]="peso" type="number" pInputText />
             </div>
         </div>
 
@@ -41,7 +41,18 @@
     <div class="col-12 lg:col-3 ">
         <div class="grid">
             <div class="col-6">
-                <p class="label">¿Cuántos cigarrillos consumió la última semana?</p>
+                <p class="label">¿Cuantas horas dormiste?</p>
+            </div>
+            <div class="col-6">
+                <input class="w-full" placeholder="Max 24h" [maxlength]="2" max="24" [(ngModel)]="horasDormir" type="number" pInputText />
+            </div>
+        </div>
+
+    </div>
+    <div class="col-12 lg:col-3 ">
+        <div class="grid">
+            <div class="col-6">
+                <p class="label">¿Como tu consideras tu nivel de consumo de cigarros?</p>
             </div>
             <div class="col-6">
                 <p-selectButton class="sb-bajo-normal-alto"
@@ -56,7 +67,7 @@
     <div class="col-12 lg:col-3 ">
         <div class="grid">
             <div class="col-6">
-                <p class="label">¿Cuántos vasos de alcohol consumió a la semana?</p>
+                <p class="label">¿Como tu consideras tu nivel de consumo de alcohol?</p>
             </div>
             <div class="col-6">
                 <p-selectButton class="sb-bajo-normal-alto"
