@@ -1,11 +1,24 @@
 <div class="container-header flex justify-content-between flex-wrap">
-    <div>
-        <p-button size="large" (onClick)="onClickHome()" icon="pi pi-home" [rounded]="true" [text]="true" severity="secondary" />
+    <div >
+        <div *ngIf="showHome">
+            <p-button size="large" (onClick)="onClickHome()" icon="pi pi-home" [rounded]="true" [text]="true" severity="secondary" />
+
+        </div>
     </div>
-    <div class="flex flex-row align-items-center">
-        <p class="mr-3">{{userInfo.name}}</p>
-        <img style="display: block; width: 40px; height: 40px; border-radius: 50%;" [src]="userInfo.picture" alt="">
+    <div >
+        <div class="flex flex-row align-items-center"  *ngIf="showUser" >
+            <p class="mr-3">{{userInfo.name}}</p>
+        <!-- <img style="display: block; width: 40px; height: 40px; border-radius: 50%;" [src]="userInfo.picture" alt=""> -->
+        <div class="card flex justify-content-center p-0">
+            <p-menu #menu [model]="itemsMenu" [popup]="true" />
+            <p-button [style]="{'padding':'0px'}"  [text]="true" (click)="menu.toggle($event)">
+                <img style="display: block; width: 40px; height: 40px; border-radius: 50%;" [src]="userInfo.picture" alt="">
+            </p-button>
+        </div>
+        </div>
+        
     </div>
+   
     
 
 </div>

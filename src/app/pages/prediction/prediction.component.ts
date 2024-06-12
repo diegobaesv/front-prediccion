@@ -8,11 +8,12 @@ import { PredictService } from '../../core/services/predict.service';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { InputNumberModule} from 'primeng/inputnumber';
 
 @Component({
   selector: 'app-prediction',
   standalone: true,
-  imports: [CommonModule,FormsModule,InputTextModule, ButtonModule, HeaderComponent,SelectButtonModule],
+  imports: [CommonModule,FormsModule,InputTextModule, ButtonModule, HeaderComponent,SelectButtonModule,InputNumberModule],
   templateUrl: './prediction.component.html',
   styleUrl: './prediction.component.scss'
 })
@@ -103,8 +104,8 @@ export class PredictionComponent implements OnInit {
     }
 
     const  resp :any= await this.predictService.predict( 
-      60, 
-      1.78, 
+      37, 
+      178, 
       this.peso||0, 
       this.presionArterialUlt?.value || 0,
       nivelPasos, 

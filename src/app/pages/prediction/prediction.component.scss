@@ -56,3 +56,16 @@ div.container-prediccion{
         background-color: red;
     }
 }
+
+
+::ng-deep .full-width{
+    width: 100%;
+    span {
+        width: 100%;
+        input {
+            width: 100%;
+        }
+    }
+    
+
+}
