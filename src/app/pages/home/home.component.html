@@ -1,8 +1,8 @@
 <app-header></app-header>
 
 <div class="container-fecha">
-    <p class="fecha-dia-semana">VIERNES</p>
-    <p class="fecha-dia-mes">24 MAYO</p>
+    <p class="fecha-dia-semana">{{fechaDiaSemana}}</p>
+    <p class="fecha-dia-mes">{{fechaDiaMes}}</p>
 </div>
 
 <div class="container-div-generic">
@@ -30,16 +30,12 @@
 
 <div class="container-div-generic">
     <p class="mb-2 font-bold text-center">PREDDICCIONES REALIZADAS</p>
-    <p class="text-center">-----------</p>
-    <!-- <p style="text-align: center; font-weight: bold;">PREDDICCIÓN AL 96%</p>
-    <div style="display: flex; justify-content: space-between;">
-        <p>24 de mayo 2024</p>
-        <p>+8 Meses</p>
+    <!-- <p class="text-center">-----------</p> -->
+    <!-- <p style="text-align: center; font-weight: bold;">PREDDICCIÓN AL 96%</p> -->
+    <div *ngFor="let prediccion of preddicionesRealizadas"style="display: flex; justify-content: space-between;">
+        <p>{{formatearFecha(prediccion.fechaCreacion)}}</p>
+        <p>+{{prediccion?.output?.predict}} Meses</p>
     </div>
-    <div style="display: flex; justify-content: space-between;">
-        <p>24 de mayo 2024</p>
-        <p>7 Meses</p>
-    </div> -->
 </div>
 
 <p-button  [disabled]="loading"  (onClick)="onClickNuevaPrediccion()" class="floating-button" [style]="{'width.%': 100, 'color':'white'}" size="large" severity="info" label="Nueva predicción" />

@@ -1,6 +1,8 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { lastValueFrom } from "rxjs";
+import { IPrediccion } from "../models/prediccion.model";
+import { BASE_URL_BACKEND } from "../../shared/utils/constants";
 
 @Injectable({
     providedIn: 'root'
@@ -12,25 +14,24 @@ export class PredictService {
     ) {
     }
 
+    url:string = `${BASE_URL_BACKEND}/predicciones`;
 
-    async predict(edad: number, altura: number, peso: number, presion: number, pasos: number, rest_: number, nivelFumar: number, nivelBebida: number){
-        const body = {
-            age:edad,
-            height: altura,
-            weight: peso,
-            pressure_level:presion,
-            step_level:pasos,
-            rest_level: rest_,
-            smoking_consumption_level: nivelFumar,
-            drink_consumption_level: nivelBebida
-        }
-
+    async predict(body: any){
         console.log('predict::body',body)
-        
         const observable = this.http.post(
             'http://127.0.0.1:5000/predict', 
             body
         );
+        return await lastValueFrom(observable);
+    }
+
+    async guardarPrediccion(body: IPrediccion){
+        const observable = this.http.post(this.url, body);
+        return await lastValueFrom(observable);
+    }
+
+    async listarPrediccionesPorIdUsuarioGoogle(idUsuarioGoogle: string){
+        const observable = this.http.get(`${this.url}/${idUsuarioGoogle}`);
         return await lastValueFrom(observable);
     }
 }

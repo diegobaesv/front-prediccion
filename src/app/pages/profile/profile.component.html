@@ -2,11 +2,11 @@
 
 <div class="flex">
     <div class="mr-5" >
-        <img style="display: block; width: 80px; height: 80px; border-radius: 50%;" [src]="userInfo.picture" alt="">
+        <img style="display: block; width: 80px; height: 80px; border-radius: 50%;" [src]="usuarioGoogle.picture" alt="">
     </div>
     <div >
-        <p class="text-2xl m-0 mb-1 font-bold">{{userInfo.name}}</p>
-        <p class="text-sm m-0">{{userInfo.email}}</p>
+        <p class="text-2xl m-0 mb-1 font-bold">{{usuarioGoogle.name}}</p>
+        <p class="text-sm m-0">{{usuarioGoogle.email}}</p>
     </div>
 </div>
 
@@ -18,7 +18,7 @@
         <div class="col-5">
             <p-inputMask 
             [style]="{'width':'100%'}" 
-            [(ngModel)]="fechaNacimiento"
+            [(ngModel)]="usuarioGoogle.fechaNacimiento"
             mask="99/99/9999" 
             placeholder="99/99/9999" 
             slotChar="mm/dd/yyyy" />
@@ -33,7 +33,7 @@
             onkeypress="return event.charCode >= 48 && event.charCode <= 57" 
             type="number" pInputText /> -->
             <p-inputNumber 
-            [(ngModel)]="estatura" 
+            [(ngModel)]="usuarioGoogle.estatura" 
             placeholder="cm"
             class="full-width"
             suffix=" cm" /> 
@@ -45,7 +45,7 @@
         <div class="col-5">
             <!-- <input class="w-full" placeholder="gr" max="24" min="1" step="1" [(ngModel)]="peso" type="number" pInputText /> -->
             <p-inputNumber 
-            [(ngModel)]="peso" 
+            [(ngModel)]="usuarioGoogle.peso" 
             placeholder="kg"
             class="full-width"
             suffix=" kg" /> 
@@ -63,4 +63,4 @@
 
 
 
-<p-button class="floating-button" [style]="{'width.%': 100, 'color':'white'}" size="large" severity="info" label="Actualizar Datos" />
+<p-button (click)="onClickActualizarDatos()" class="floating-button" [style]="{'width.%': 100, 'color':'white'}" size="large" severity="info" label="Actualizar Datos" />

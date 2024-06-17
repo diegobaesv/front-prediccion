@@ -7,7 +7,8 @@ import { MessagesModule } from 'primeng/messages';
 import { Message } from 'primeng/api';
 import { GoogleApiService } from '../../core/services/googleapi.service';
 import { LocalCacheService } from '../../core/services/localcache.service';
-import { LOCALCACHE_AUTH, LOCALCACHE_USERINFO } from '../../shared/constants/constants';
+import { LOCALCACHE_AUTH, LOCALCACHE_USERINFO, LOCALCACHE_USUARIOGOOGLE } from '../../shared/constants/constants';
+import { UsuariosGoogleService } from '../../core/services/usuariosGoogle.service';
 
 
 @Component({
@@ -23,7 +24,8 @@ export class AuthCallbackComponent {
         private route: ActivatedRoute,
         private router: Router,
         private googleApiService: GoogleApiService,
-        private localCacheService: LocalCacheService
+        private localCacheService: LocalCacheService,
+        private usuariosGoogleService: UsuariosGoogleService
     ) {}
 
     errorMessages: Message[] = []
@@ -60,13 +62,17 @@ export class AuthCallbackComponent {
             }
 
             if(this.errorMessages.length == 0) {
+
+                const resp = await this.usuariosGoogleService.updateOrCreate(userInfo);
+                console.log('usuariosGoogleService::',resp);
+                
+                this.localCacheService.setItem(LOCALCACHE_USUARIOGOOGLE,resp);
                 this.localCacheService.setItem(LOCALCACHE_AUTH,authObj);
                 this.localCacheService.setItem(LOCALCACHE_USERINFO,userInfo);
                 this.router.navigate(['app/home']);
             }
           });
       }
-
 
     addErrorMessage(message: string) {
         this.errorMessages.push({

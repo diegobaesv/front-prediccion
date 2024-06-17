@@ -9,6 +9,9 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { InputNumberModule} from 'primeng/inputnumber';
+import { IPrediccion } from '../../core/models/prediccion.model';
+import { LocalCacheService } from '../../core/services/localcache.service';
+import { LOCALCACHE_USUARIOGOOGLE } from '../../shared/constants/constants';
 
 @Component({
   selector: 'app-prediction',
@@ -21,7 +24,8 @@ export class PredictionComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private predictService: PredictService
+    private predictService: PredictService,
+    private localCacheService: LocalCacheService
   ) {
 
   }
@@ -41,6 +45,8 @@ export class PredictionComponent implements OnInit {
   predictValue?:number;
 
   error:string ='';
+
+  usuarioGoogle:any;
   
 
   ngOnInit(): void {
@@ -54,6 +60,9 @@ export class PredictionComponent implements OnInit {
       this.presionArterialUlt = values.presionArterial;
       this.pasosRealizadosUlt = values.pasosRealizados;
     });
+    this.usuarioGoogle =  this.localCacheService.getItem(LOCALCACHE_USUARIOGOOGLE);
+    this.peso = this.usuarioGoogle.peso;
+
   }
 
   async onClickPredecir(){
@@ -103,20 +112,31 @@ export class PredictionComponent implements OnInit {
       nivelPasos=3;
     }
 
-    const  resp :any= await this.predictService.predict( 
-      37, 
-      178, 
-      this.peso||0, 
-      this.presionArterialUlt?.value || 0,
-      nivelPasos, 
-      this.horasDormir, 
-      this.getValorNivel(this.fumarValue),
-      this.getValorNivel(this.beberValue)
-    );
+    const body = {
+      age:this.calcularEdad(this.usuarioGoogle.fechaNacimiento),
+      height: this.usuarioGoogle.estatura,
+      weight: this.peso||0,
+      pressure_level:this.presionArterialUlt?.value || 0,
+      step_level:nivelPasos,
+      rest_level: this.horasDormir, 
+      smoking_consumption_level: this.getValorNivel(this.fumarValue),
+      drink_consumption_level: this.getValorNivel(this.beberValue)
+  }
+
+    const  resp :any= await this.predictService.predict(body);
     console.log('resp',resp);
 
+    console.log('this.predictService.predict',body,resp);
 
-    
+
+    const body2 = {
+      inputs: body,
+      output: resp,
+      idUsuarioGoogle: 'test'
+    }
+
+    const resp2 = await this.predictService.guardarPrediccion(body2);
+    console.log('resp2',resp2)
 
     if(resp.success){
       this.predictValue = resp.predict;
@@ -135,6 +155,30 @@ export class PredictionComponent implements OnInit {
     }
     return 0;
   }
+
+
+  calcularEdad(fechaNacimiento: string): number {
+    if(fechaNacimiento.length == 0){
+      return 0;
+    }
+
+    const partes = fechaNacimiento.split('/');
+    const dia = parseInt(partes[0], 10);
+    const mes = parseInt(partes[1], 10) - 1; // Los meses en JavaScript son 0-indexados
+    const anio = parseInt(partes[2], 10);
+
+    const fechaNac = new Date(anio, mes, dia);
+    const hoy = new Date();
+
+    let edad = hoy.getFullYear() - fechaNac.getFullYear();
+    const mesDiferencia = hoy.getMonth() - fechaNac.getMonth();
+
+    if (mesDiferencia < 0 || (mesDiferencia === 0 && hoy.getDate() < fechaNac.getDate())) {
+        edad--;
+    }
+
+    return edad;
+}
 
 
 }

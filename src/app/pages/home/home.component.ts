@@ -4,17 +4,22 @@ import { ButtonModule } from 'primeng/button';
 import { HeaderComponent } from '../../shared/components/header/header.component';
 import { GoogleApiService } from '../../core/services/googleapi.service';
 import { LocalCacheService } from '../../core/services/localcache.service';
-import { LOCALCACHE_AUTH } from '../../shared/constants/constants';
+import { LOCALCACHE_AUTH, LOCALCACHE_USUARIOGOOGLE } from '../../shared/constants/constants';
 import { IDataSourceModel } from '../../core/models/datasource.model';
 import { millisToDate, nanosToDate } from '../../shared/utils/utils';
 import { IRegistroFinalModel } from '../../core/models/registroFinal.model';
+import { PredictService } from '../../core/services/predict.service';
+import { IPrediccion } from '../../core/models/prediccion.model';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { UsuariosGoogleService } from '../../core/services/usuariosGoogle.service';
 
 
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [ButtonModule, HeaderComponent],
+  imports: [CommonModule,FormsModule,ButtonModule, HeaderComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
@@ -23,13 +28,17 @@ export class HomeComponent implements OnInit {
   constructor(
     private router: Router,
     private googleApiService: GoogleApiService,
-    private localCacheService: LocalCacheService
+    private localCacheService: LocalCacheService,
+    private predictService: PredictService,
+    private usuarioGoogleService: UsuariosGoogleService
   ) {
   }
 
   auth: any;
+  usuarioGoogle:any;
 
-
+  fechaDiaSemana:string='';
+  fechaDiaMes:string='';
 
   presionArterialUlt?: IRegistroFinalModel;
   pasosRealizadosUlt?: IRegistroFinalModel;
@@ -39,9 +48,47 @@ export class HomeComponent implements OnInit {
 
   loading: boolean = false;
 
-  ngOnInit(): void {
+
+  preddicionesRealizadas: any=[]
+
+  async ngOnInit() {
     this.auth = this.localCacheService.getItem(LOCALCACHE_AUTH);
+    this.usuarioGoogle = this.localCacheService.getItem(LOCALCACHE_USUARIOGOOGLE);
+
+    this.preddicionesRealizadas = await this.predictService.listarPrediccionesPorIdUsuarioGoogle('test');
+    console.log('this.preddicionesRealizadas',this.preddicionesRealizadas);
+
     this.onClickSincronizar();
+
+    const _usuarioGoogle = await this.usuarioGoogleService.findOne(this.usuarioGoogle.id);
+    this.localCacheService.setItem(LOCALCACHE_USUARIOGOOGLE,_usuarioGoogle);
+
+    const ahora = new Date();
+
+    // Opciones para formatear el día de la semana y el día/mes
+    const opcionesDiaSemana: Intl.DateTimeFormatOptions = { weekday: 'long' };
+    const opcionesDiaMes: Intl.DateTimeFormatOptions = { day: '2-digit', month: 'long' };
+
+    // Formatear el día de la semana
+    this.fechaDiaSemana = ahora.toLocaleDateString('es-ES', opcionesDiaSemana).toUpperCase();
+
+    // Formatear el día y mes
+    this.fechaDiaMes = ahora.toLocaleDateString('es-ES', opcionesDiaMes).toUpperCase();
+
+
+
+  }
+
+  formatearFecha(isoDateString: string): string {
+    const fecha = new Date(isoDateString);
+
+    const opciones: Intl.DateTimeFormatOptions = {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric'
+    };
+
+    return fecha.toLocaleDateString('es-ES', opciones);
   }
 
   onClickNuevaPrediccion() {
@@ -129,8 +176,15 @@ export class HomeComponent implements OnInit {
           });
         });
       });
-    // Ordenar los registros por tiempo de fin descendente
-    const sortedCalories = data.sort((a: any, b: any) => b.endTimeNanos - a.endTimeNanos);
+        // Ordenar los registros por tiempo de fin descendente y luego por valor ascendente
+    //const sortedCalories = data.sort((a: any, b: any) => b.endTimeNanos - a.endTimeNanos);
+    const sortedCalories = data.sort((a: any, b: any) => {
+      if (b.endTimeNanos === a.endTimeNanos) {
+          return a.value - b.value;
+      }
+      return b.endTimeNanos - a.endTimeNanos;
+  });
+
 
     // Obtener el último registro
     const ultimoRegistro = sortedCalories.length > 0 ? sortedCalories[0] : null;
