@@ -24,4 +24,9 @@ export class UsuariosGoogleService {
         const observable =  this.http.get(`${this.url}/${idUsuarioGoogle}`);
         return await lastValueFrom(observable);
     }
+
+    async findByEmail(email: string){
+        const observable =  this.http.get(`${this.url}/email/${email}`);
+        return await lastValueFrom(observable);
+    }
 }
