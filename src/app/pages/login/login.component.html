@@ -14,7 +14,7 @@
         <div class="flex flex-column gap-5">
             <div class="mt-4">
                 <p-floatLabel>
-                    <input pInputText id="correoElectronico" class="w-full" (focusout)="onEventCorreo($event)"/>
+                    <input pInputText id="correoElectronico" class="w-full"  [(ngModel)]="email" (focusout)="onEventCorreo($event)"/>
                     <label for="correoElectronico">Correo Electrónico</label>
                 </p-floatLabel>
                 <small *ngIf="correoStatus==0" class="block  text-left text-green-300 m-0 mt-2"><i class="pi pi-check-circle mr-2"></i>Correo disponible</small>
@@ -24,18 +24,45 @@
             </div>
             
             <p-floatLabel>
-                <input [disabled]="correoStatus != 0" pInputText id="fechaNacimiento" class="w-full"/>
+                <!-- <input [disabled]="correoStatus != 0" pInputText id="fechaNacimiento" class="w-full"/>
+                 -->
+                <p-inputMask 
+                    id="fechaNacimiento"
+                    [disabled]="correoStatus != 0"
+                    [style]="{'width':'100%'}" 
+                    [(ngModel)]="fechaNacimiento"
+                    mask="99/99/9999" 
+                    placeholder="99/99/9999" 
+                    slotChar="mm/dd/yyyy" />    
                 <label for="fechaNacimiento">Fecha de Nacimiento</label>
             </p-floatLabel>
             <p-floatLabel>
-                <input [disabled]="correoStatus != 0"  pInputText id="estatura" class="w-full"/>
+                <!-- <input [disabled]="correoStatus != 0"  pInputText id="estatura" class="w-full"/> -->
+                <p-inputNumber 
+                    id="estatura"
+                    [disabled]="correoStatus != 0"
+                    [(ngModel)]="estatura" 
+                    placeholder="cm"
+                    class="full-width"
+                    suffix=" cm" /> 
                 <label for="estatura">Estatura</label>
             </p-floatLabel>
             <p-floatLabel>
-                <input [disabled]="correoStatus != 0"  pInputText id="peso" class="w-full"/>
+                <!-- <input [disabled]="correoStatus != 0"  pInputText id="peso" class="w-full"/> -->
+                <p-inputNumber 
+                    id="peso"
+                    [disabled]="correoStatus != 0"
+                    [(ngModel)]="peso" 
+                    placeholder="kg"
+                    class="full-width"
+                    suffix=" kg" /> 
                 <label for="peso">Peso</label>
             </p-floatLabel>
-            <p-button [disabled]="correoStatus != 0"  label="Crear cuenta nueva" styleClass="w-full" />
+            <div>
+                <p-button [disabled]="correoStatus != 0" (onClick)="onClickCrearCuenta()" label="Crear cuenta nueva" styleClass="w-full" />
+                <small *ngIf="errorCuenta" class="text-red-300 m-0 mt-3">Debe completar los datos</small>
+            </div>
+
             <p-button icon="pi pi-chevron-right" iconPos="right" [outlined]="true" (click)="onClickToStep(1)" label="Continuar" styleClass="w-full" />
         </div>
         

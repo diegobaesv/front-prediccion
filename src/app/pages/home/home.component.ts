@@ -13,6 +13,8 @@ import { IPrediccion } from '../../core/models/prediccion.model';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { UsuariosGoogleService } from '../../core/services/usuariosGoogle.service';
+import { SweetService } from '../../core/services/sweet.service';
+
 
 
 
@@ -30,7 +32,8 @@ export class HomeComponent implements OnInit {
     private googleApiService: GoogleApiService,
     private localCacheService: LocalCacheService,
     private predictService: PredictService,
-    private usuarioGoogleService: UsuariosGoogleService
+    private usuarioGoogleService: UsuariosGoogleService,
+    private sweetService: SweetService
   ) {
   }
 
@@ -54,10 +57,9 @@ export class HomeComponent implements OnInit {
   async ngOnInit() {
     this.auth = this.localCacheService.getItem(LOCALCACHE_AUTH);
     this.usuarioGoogle = this.localCacheService.getItem(LOCALCACHE_USUARIOGOOGLE);
-
-    this.preddicionesRealizadas = await this.predictService.listarPrediccionesPorIdUsuarioGoogle('test');
-    console.log('this.preddicionesRealizadas',this.preddicionesRealizadas);
-
+    
+    this.loadPredicciones();
+    
     this.onClickSincronizar();
 
     const _usuarioGoogle = await this.usuarioGoogleService.findOne(this.usuarioGoogle.id);
@@ -75,7 +77,11 @@ export class HomeComponent implements OnInit {
     // Formatear el día y mes
     this.fechaDiaMes = ahora.toLocaleDateString('es-ES', opcionesDiaMes).toUpperCase();
 
+  }
 
+  async loadPredicciones(){
+    this.preddicionesRealizadas = await this.predictService.listarPrediccionesPorIdUsuarioGoogle(this.usuarioGoogle.id);
+    console.log('this.preddicionesRealizadas',this.preddicionesRealizadas);
 
   }
 
@@ -102,6 +108,18 @@ export class HomeComponent implements OnInit {
         }))
       }
     })
+  }
+
+  async onClickDeletePrediccion(event: Event,id:any){
+    this.sweetService.showConfirm('¿Estás seguro quieres eliminar la predicción?',async () => {
+      console.log('onClickDeletePrediccion',id);
+      const resp = await this.predictService.deleteOne(id);
+      console.log('resp',resp);
+      this.loadPredicciones();
+      this.sweetService.showSuccess();
+  })
+    
+    
   }
 
   async onClickSincronizar() {

@@ -1,5 +1,7 @@
 <app-header></app-header>
 
+
+
 <div class="container-fecha">
     <p class="fecha-dia-semana">{{fechaDiaSemana}}</p>
     <p class="fecha-dia-mes">{{fechaDiaMes}}</p>
@@ -26,18 +28,27 @@
     </div>
 </div>
 
+
 <p-button  [disabled]="loading"  (onClick)="onClickSincronizar()" icon="pi pi-sync" [style]="{'width.%': 100, 'color':'white'}" size="large" severity="info" label="Sincronizar" />
 
-<div class="container-div-generic">
-    <p class="mb-2 font-bold text-center">PREDDICCIONES REALIZADAS</p>
+<div class="container-div-generic" >
+    <p class="mb-3 font-bold text-center">PREDDICCIONES REALIZADAS</p>
     <!-- <p class="text-center">-----------</p> -->
     <!-- <p style="text-align: center; font-weight: bold;">PREDDICCIÓN AL 96%</p> -->
-    <div *ngFor="let prediccion of preddicionesRealizadas"style="display: flex; justify-content: space-between;">
-        <p>{{formatearFecha(prediccion.fechaCreacion)}}</p>
-        <p>+{{prediccion?.output?.predict}} Meses</p>
+    <div style="max-height: 300px; overflow: scroll;">
+        <div *ngFor="let prediccion of preddicionesRealizadas" style="display: flex; justify-content: space-between; " class="mb-3" >
+            <p>{{formatearFecha(prediccion.fechaCreacion)}}</p>
+            <p>+{{prediccion?.output?.predict}} Meses</p>
+            <p-button (onClick)="onClickDeletePrediccion($event,prediccion._id)" [outlined]="true" icon="pi pi-trash" severity="danger"/>
+        </div>
     </div>
 </div>
 
-<p-button  [disabled]="loading"  (onClick)="onClickNuevaPrediccion()" class="floating-button" [style]="{'width.%': 100, 'color':'white'}" size="large" severity="info" label="Nueva predicción" />
+<a class="block text-center" target="_blank" href="https://forms.gle/dEQ3w8CTJZQ1NEkU6">Evalúa tu experiencia</a>
+
+
+<div class="floating-button" >
+    <p-button  [disabled]="loading"  (onClick)="onClickNuevaPrediccion()" [style]="{'width.%': 100, 'color':'white'}" size="large" severity="info" label="Nueva predicción" />
+</div>
 
 

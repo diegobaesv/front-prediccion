@@ -10,3 +10,15 @@ div.container-login{
     //margin-top: calc(var(--height)/-2);
     text-align: center;
 }
+
+::ng-deep .full-width{
+    width: 100%;
+    span {
+        width: 100%;
+        input {
+            width: 100%;
+        }
+    }
+    
+
+}

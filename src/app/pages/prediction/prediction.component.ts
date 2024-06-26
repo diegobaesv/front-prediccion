@@ -12,6 +12,7 @@ import { InputNumberModule} from 'primeng/inputnumber';
 import { IPrediccion } from '../../core/models/prediccion.model';
 import { LocalCacheService } from '../../core/services/localcache.service';
 import { LOCALCACHE_USUARIOGOOGLE } from '../../shared/constants/constants';
+import { SweetService } from '../../core/services/sweet.service';
 
 @Component({
   selector: 'app-prediction',
@@ -25,7 +26,8 @@ export class PredictionComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private predictService: PredictService,
-    private localCacheService: LocalCacheService
+    private localCacheService: LocalCacheService,
+    private sweetService: SweetService
   ) {
 
   }
@@ -66,81 +68,87 @@ export class PredictionComponent implements OnInit {
   }
 
   async onClickPredecir(){
-    this.predictValue = undefined;
-    this.error = '';
 
-    if( !this.peso) {
-      this.error= 'Debe ingresar un peso';
-      return;
-    }
+    this.sweetService.showConfirm('¿Deseas predecir ahora?', async () => {
+      this.predictValue = undefined;
+      this.error = '';
 
-    if( !this.horasDormir) {
-      this.error= 'Debe ingresar horas de sueño';
-      return;
-    }
+      if (!this.peso) {
+        this.error = 'Debe ingresar un peso';
+        return;
+      }
 
-
-    if( this.peso > 500 ) {
-      this.error= 'Debe ingresar un peso correcto';
-      return;
-    }
-
-    if( this.horasDormir > 24 ) {
-      this.error= 'Debe ingresar un horario de sueño correcto';
-      return;
-    }
-
-    if(this.getValorNivel(this.fumarValue) == 0 ) {
-      this.error= 'Debe ingresar valores para fumar';
-      return;
-    }
-
-    if( this.getValorNivel(this.beberValue) == 0 ) {
-      this.error= 'Debe ingresar valores para beber';
-      return;
-    }
+      if (!this.horasDormir) {
+        this.error = 'Debe ingresar horas de sueño';
+        return;
+      }
 
 
-    const pasosRealizados = this.pasosRealizadosUlt?.value  || 0;
+      if (this.peso > 500) {
+        this.error = 'Debe ingresar un peso correcto';
+        return;
+      }
 
-    let nivelPasos = 0;
-    if(pasosRealizados < 3000) {
-      nivelPasos=1;
-    } else if(pasosRealizados >= 3000 && pasosRealizados < 6000) {
-      nivelPasos=2;
-    } else {
-      nivelPasos=3;
-    }
+      if (this.horasDormir > 24) {
+        this.error = 'Debe ingresar un horario de sueño correcto';
+        return;
+      }
 
-    const body = {
-      age:this.calcularEdad(this.usuarioGoogle.fechaNacimiento),
-      height: this.usuarioGoogle.estatura,
-      weight: this.peso||0,
-      pressure_level:this.presionArterialUlt?.value || 0,
-      step_level:nivelPasos,
-      rest_level: this.horasDormir, 
-      smoking_consumption_level: this.getValorNivel(this.fumarValue),
-      drink_consumption_level: this.getValorNivel(this.beberValue)
-  }
+      if (this.getValorNivel(this.fumarValue) == 0) {
+        this.error = 'Debe ingresar valores para fumar';
+        return;
+      }
 
-    const  resp :any= await this.predictService.predict(body);
-    console.log('resp',resp);
+      if (this.getValorNivel(this.beberValue) == 0) {
+        this.error = 'Debe ingresar valores para beber';
+        return;
+      }
 
-    console.log('this.predictService.predict',body,resp);
+      const pasosRealizados = this.pasosRealizadosUlt?.value || 0;
+
+      let nivelPasos = 0;
+      if (pasosRealizados < 3000) {
+        nivelPasos = 1;
+      } else if (pasosRealizados >= 3000 && pasosRealizados < 6000) {
+        nivelPasos = 2;
+      } else {
+        nivelPasos = 3;
+      }
+
+      const body = {
+        age: this.calcularEdad(this.usuarioGoogle.fechaNacimiento),
+        height: this.usuarioGoogle.estatura,
+        weight: this.peso || 0,
+        pressure_level: this.presionArterialUlt?.value || 0,
+        step_level: nivelPasos,
+        rest_level: this.horasDormir,
+        smoking_consumption_level: this.getValorNivel(this.fumarValue),
+        drink_consumption_level: this.getValorNivel(this.beberValue)
+      }
+
+      const resp: any = await this.predictService.predict(body);
+      console.log('resp', resp);
+
+      console.log('this.predictService.predict', body, resp);
 
 
-    const body2 = {
-      inputs: body,
-      output: resp,
-      idUsuarioGoogle: 'test'
-    }
+      const body2 = {
+        inputs: body,
+        output: resp,
+        idUsuarioGoogle: this.usuarioGoogle.id
+      }
 
-    const resp2 = await this.predictService.guardarPrediccion(body2);
-    console.log('resp2',resp2)
+      const resp2 = await this.predictService.guardarPrediccion(body2);
+      console.log('resp2', resp2)
 
-    if(resp.success){
-      this.predictValue = resp.predict;
-    }
+      if (resp.success) {
+        this.predictValue = resp.predict;
+      }
+
+      this.sweetService.showSuccess();
+    });
+
+    
   }
 
   getValorNivel(value:string):number{

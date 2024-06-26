@@ -34,4 +34,9 @@ export class PredictService {
         const observable = this.http.get(`${this.url}/${idUsuarioGoogle}`);
         return await lastValueFrom(observable);
     }
+
+    async deleteOne(id: string){
+        const observable = this.http.delete(`${this.url}/${id}`);
+        return await lastValueFrom(observable);
+    }
 }

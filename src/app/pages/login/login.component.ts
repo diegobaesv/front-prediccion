@@ -8,12 +8,15 @@ import { CommonModule } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { UsuariosGoogleService } from '../../core/services/usuariosGoogle.service';
+import { InputMaskModule } from 'primeng/inputmask';
+import { FormsModule } from '@angular/forms';
+import { InputNumberModule} from 'primeng/inputnumber';
 
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule,ButtonModule, StepsModule,InputTextModule,FloatLabelModule],
+  imports: [FormsModule,CommonModule,ButtonModule, StepsModule,InputTextModule,FloatLabelModule,InputMaskModule,InputNumberModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
@@ -33,6 +36,13 @@ export class LoginComponent implements OnInit {
   activeIndex = 0;
   correoStatus = -1;
 
+  email = '';
+  fechaNacimiento = '';
+  estatura = 0;
+  peso = 0;
+
+  errorCuenta:boolean = false;
+
   constructor(
     private authService: AuthService,
     private usuariosGoogleService: UsuariosGoogleService,
@@ -42,6 +52,34 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.localCacheService.clear();
+    this.errorCuenta = false;
+  }
+
+  async onClickCrearCuenta() {
+    this.errorCuenta = false;
+    console.log('onClickCrearCuenta',this.fechaNacimiento,this.estatura,this.peso,this.correoStatus);
+    if (this.fechaNacimiento.trim().length == 0 ||
+      !this.estatura || this.estatura == 0 || 
+      !this.peso || this.peso == 0 ||
+      this.email.trim().length == 0 ||
+     this.correoStatus != 0
+    ) {
+      this.errorCuenta = true;
+      return;
+    }
+
+    const usuario:any = {
+      email: this.email,
+      fechaNacimiento: this.fechaNacimiento,
+      estatura: this.estatura,
+      peso: this.peso
+    }
+
+    const resp = await this.usuariosGoogleService.updateOrCreate(usuario);
+    console.log('usuariosGoogleService.updateOrCreate::resp',resp);
+
+    this.onClickToStep(1)
+
   }
 
 
