@@ -10,14 +10,13 @@ import { InputSwitchModule } from 'primeng/inputswitch';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { UsuariosGoogleService } from '../../core/services/usuariosGoogle.service';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { SweetService } from '../../core/services/sweet.service';
 
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [FormsModule, HeaderComponent, InputMaskModule, ConfirmDialogModule, InputTextModule, InputSwitchModule, ButtonModule, InputNumberModule],
+  imports: [FormsModule, HeaderComponent, InputMaskModule, InputTextModule, InputSwitchModule, ButtonModule, InputNumberModule],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
 })
