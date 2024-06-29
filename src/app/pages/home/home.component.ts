@@ -232,6 +232,33 @@ export class HomeComponent implements OnInit {
     return dataExtract;
   }
 
+  calcularEdad(fechaNacimiento: string): number {
+    if (fechaNacimiento.length == 0) {
+      return 0;
+    }
+
+    const partes = fechaNacimiento.split('/');
+    const dia = parseInt(partes[0], 10);
+    const mes = parseInt(partes[1], 10) - 1; // Los meses en JavaScript son 0-indexados
+    const anio = parseInt(partes[2], 10);
+
+    const fechaNac = new Date(anio, mes, dia);
+    const hoy = new Date();
+
+    let edad = hoy.getFullYear() - fechaNac.getFullYear();
+    const mesDiferencia = hoy.getMonth() - fechaNac.getMonth();
+
+    if (mesDiferencia < 0 || (mesDiferencia === 0 && hoy.getDate() < fechaNac.getDate())) {
+      edad--;
+    }
+
+    return edad;
+  }
+
+  openEncuesta() {
+    window.open('https://forms.gle/dEQ3w8CTJZQ1NEkU6','_self');
+  }
+
 
 
 }

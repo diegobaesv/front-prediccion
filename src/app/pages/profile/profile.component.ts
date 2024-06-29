@@ -11,6 +11,7 @@ import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { UsuariosGoogleService } from '../../core/services/usuariosGoogle.service';
 import { SweetService } from '../../core/services/sweet.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -25,7 +26,8 @@ export class ProfileComponent implements OnInit {
   constructor(
     private localcacheService: LocalCacheService,
     private usuariosGoogleService: UsuariosGoogleService,
-    private sweetService: SweetService
+    private sweetService: SweetService,
+    private router: Router,
   ) {
 
   }
@@ -47,7 +49,8 @@ export class ProfileComponent implements OnInit {
     this.sweetService.showConfirm('¿Seguro deseas guardar los cambios?',async ()=>{
       const resp = await this.usuariosGoogleService.updateOrCreate(this.usuarioGoogle);
       console.log('resp::', resp);
-      this.sweetService.showSuccess()
+      this.sweetService.showSuccess();
+      this.router.navigate(['app/home']);
     })
     
   }

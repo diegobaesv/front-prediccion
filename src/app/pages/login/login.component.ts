@@ -78,7 +78,7 @@ export class LoginComponent implements OnInit {
     const resp = await this.usuariosGoogleService.updateOrCreate(usuario);
     console.log('usuariosGoogleService.updateOrCreate::resp',resp);
 
-    this.onClickToStep(1)
+    this.openPathGoogleAuth();
 
   }
 

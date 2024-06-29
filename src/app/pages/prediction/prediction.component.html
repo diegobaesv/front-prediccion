@@ -1,4 +1,3 @@
-
 <app-header></app-header>
 
 
@@ -6,7 +5,19 @@
 
 <div class="container-div-generic">
     <div class="datos-resumen grid">
-        <div class="flex justify-content-between align-items-end col-12 lg:col-3 ">
+        <div class="col-6 lg:col-4 ">
+            <p class="label">Presión Arterial</p>
+            <p class="value">{{presionArterialUlt? presionArterialUlt.value + ' LPM':'--' }}</p>
+        </div>
+        <div class="col-6 lg:col-4 ">
+            <p class="label">Pasos Realizados</p>
+            <p class="value">{{pasosRealizadosUlt? pasosRealizadosUlt.value + ' pasos':'--' }}</p>
+        </div>
+        <div class="col-6 lg:col-4 ">
+            <p class="label">Edad</p>
+            <p class="value">{{usuarioGoogle? calcularEdad(usuarioGoogle.fechaNacimiento) + ' años':'--' }}</p>
+        </div>
+        <!-- <div class="flex justify-content-between align-items-end col-12 lg:col-3 ">
             <p class="label">Ritmo Cardiaco</p>
             <p class="value">{{presionArterialUlt? presionArterialUlt.value + ' LPM':'--' }}</p>
         </div>
@@ -21,90 +32,84 @@
         <div class="flex justify-content-between align-items-end col-12 lg:col-3 ">
             <p class="label">Nivel Estrés</p>
             <p class="value">{{nivelEstresUlt ? nivelEstresUlt.value +'%':'--'}}</p>
-        </div>
-    </div>
+        </div> -->
+    </div> 
 </div>
 
 
-<div class="container-div-generic grid">
-    <div class="col-12 lg:col-3 ">
+<div class="container-div-generic grid mr-0 ml-0">
+    <div class="col-12 lg:col-6 ">
         <div class="grid">
             <div class="col-6">
-                <p class="label">¿Cuál es tu Peso?</p>
+                <p class="label">¿Cuál es tu estatura?</p>
             </div>
             <div class="col-6">
-                <!-- <input class="w-full" placeholder="Max 500 kg" [maxlength]="4" max="500" [(ngModel)]="peso" type="number" pInputText /> -->
-                <p-inputNumber 
-            [(ngModel)]="peso" 
-            placeholder="kg"
-            class="full-width"
-            suffix=" kg" /> 
-                
-                <!-- <p-inputNumber 
-            [(ngModel)]="peso" 
-            placeholder="gr (Max 5000 gr)"
-            [min]="1"
-            [max]="5000"
-            class="full-width"
-            suffix=" gr" />  -->
+                <p-inputNumber [(ngModel)]="estatura" placeholder="cm" class="full-width" suffix=" cm" />
             </div>
         </div>
-
     </div>
-    <div class="col-12 lg:col-3 ">
+    <div class="col-12 lg:col-6 ">
+        <div class="grid">
+            <div class="col-6">
+                <p class="label">¿Cuál es tu peso?</p>
+            </div>
+            <div class="col-6">
+                <p-inputNumber [(ngModel)]="peso" placeholder="kg" class="full-width" suffix=" kg" />
+            </div>
+        </div>
+    </div>
+    <div class="col-12 lg:col-6 ">
         <div class="grid">
             <div class="col-6">
                 <p class="label">¿Cuantas horas dormiste?</p>
             </div>
             <div class="col-6">
-                <input class="w-full" placeholder="Max 24h" [maxlength]="2" max="24" [(ngModel)]="horasDormir" type="number" pInputText />
+                <input class="w-full" placeholder="Max 24h" [maxlength]="2" max="24" [(ngModel)]="horasDormir"
+                    type="number" pInputText />
             </div>
         </div>
 
     </div>
-    <div class="col-12 lg:col-3 ">
+    <div class="col-12 lg:col-6 ">
         <div class="grid">
             <div class="col-6">
                 <p class="label">¿Como tu consideras tu nivel de consumo de cigarros?</p>
             </div>
             <div class="col-6">
-                <p-selectButton class="sb-bajo-normal-alto"
-                    [options]="opcionesNivel" 
-                    [(ngModel)]="fumarValue" 
-                    optionLabel="label" 
-                    optionValue="value" />
+                <p-selectButton class="sb-bajo-normal-alto" [options]="opcionesNivel" [(ngModel)]="fumarValue"
+                    optionLabel="label" optionValue="value" />
             </div>
         </div>
 
     </div>
-    <div class="col-12 lg:col-3 ">
+    <div class="col-12 lg:col-6 ">
         <div class="grid">
             <div class="col-6">
                 <p class="label">¿Como tu consideras tu nivel de consumo de alcohol?</p>
             </div>
             <div class="col-6">
-                <p-selectButton class="sb-bajo-normal-alto"
-                    [options]="opcionesNivel" 
-                    [(ngModel)]="beberValue" 
-                    optionLabel="label" 
-                    optionValue="value" />
+                <p-selectButton class="sb-bajo-normal-alto" [options]="opcionesNivel" [(ngModel)]="beberValue"
+                    optionLabel="label" optionValue="value" />
             </div>
         </div>
 
     </div>
 </div>
 
-<p-button (onClick)="onClickPredecir()" class="floating-button" [style]="{'width.%': 100, 'color':'white'}" size="large" severity="info" label="Predecir ahora" />
+<p-button (onClick)="onClickPredecir()" class="floating-button" [style]="{'width.%': 100, 'color':'white'}" size="large"
+    severity="info" label="Predecir ahora" />
 <p style="color: red; text-align: center; font-weight: bold;">{{error}}</p>
 <div *ngIf="predictValue" class="container-prediccion">
     <div class="grid">
         <!-- <p class="col-6 porcentaje">PREDICCIÓN AL 96%</p> -->
         <p class="col-6 meses">+{{predictValue}} Meses</p>
     </div>
-    
+
     <p *ngIf="predictValue >= 8" class="felicidades"><b>¡FELICIDADES!</b><br>Se encuentra en buen estado de Salud.</p>
-    <p *ngIf="predictValue >= 5 && predictValue <=7" class="felicidades"><b>¡ATENCION!</b><br>Considere hacerse un chequeo de rutina. Es necesario prevenir antes que lamentar.</p>
-    <p *ngIf="predictValue < 5" class="felicidades"><b>¡ALERTA!</b><br>Su estado de salud es critico. Debe acudir a un medico para descartar cualquier enfermedad cardiovascular.</p>
+    <p *ngIf="predictValue >= 5 && predictValue <=7" class="felicidades"><b>¡ATENCION!</b><br>Considere hacerse un
+        chequeo de rutina. Es necesario prevenir antes que lamentar.</p>
+    <p *ngIf="predictValue < 5" class="felicidades"><b>¡ALERTA!</b><br>Su estado de salud es critico. Debe acudir a un
+        medico para descartar cualquier enfermedad cardiovascular.</p>
     <!-- <p class="recomendaciones">Puede seguir las siguientes recomendaciones para reducir el riesgo de sufrir una enfermedad cardiovascular <b>Ver</b></p> -->
 
 </div>

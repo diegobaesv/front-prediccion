@@ -1,41 +1,50 @@
 <app-header></app-header>
 
 
-
-<div class="container-fecha">
-    <p class="fecha-dia-semana">{{fechaDiaSemana}}</p>
-    <p class="fecha-dia-mes">{{fechaDiaMes}}</p>
+<div class="flex justify-content-between">
+    <div class="container-fecha">
+        <p class="fecha-dia-semana">{{fechaDiaSemana}}</p>
+        <p class="fecha-dia-mes">{{fechaDiaMes}}</p>
+    </div>
+    <div >
+        <p-button [outlined]="true" (onClick)="openEncuesta()" [style]="{'width.%': 100, 'color':'white'}" size="small" severity="info" label="Evalúa tu experiencia" />
+    </div>
 </div>
+
 
 <div class="container-div-generic">
     <div class="datos-resumen grid">
-        <div class="col-6 lg:col-3 ">
+        <div class="col-6 lg:col-4 ">
             <p class="label">Presión Arterial</p>
             <p class="value">{{presionArterialUlt? presionArterialUlt.value + ' LPM':'--' }}</p>
         </div>
-        <div class="col-6 lg:col-3 ">
+        <div class="col-6 lg:col-4 ">
             <p class="label">Pasos Realizados</p>
             <p class="value">{{pasosRealizadosUlt? pasosRealizadosUlt.value + ' pasos':'--' }}</p>
         </div>
-        <div class="col-6 lg:col-3 ">
+        <div class="col-6 lg:col-4 ">
+            <p class="label">Edad</p>
+            <p class="value">{{usuarioGoogle? calcularEdad(usuarioGoogle.fechaNacimiento) + ' años':'--' }}</p>
+        </div>
+        <!-- <div class="col-6 lg:col-3 ">
             <p class="label">Nivel Sueño</p>
             <p class="value">{{nivelSuenoUlt ? nivelSuenoUlt.value + '%' : '--' }}</p>
         </div>
         <div class="col-6 lg:col-3 ">
             <p class="label">Nivel Estrés</p>
             <p class="value">{{nivelEstresUlt ? nivelEstresUlt.value +'%':'--'}}</p>
-        </div>
+        </div> -->
     </div>
 </div>
 
 
 <p-button  [disabled]="loading"  (onClick)="onClickSincronizar()" icon="pi pi-sync" [style]="{'width.%': 100, 'color':'white'}" size="large" severity="info" label="Sincronizar" />
 
-<div class="container-div-generic" >
+<div class="container-div-generic" style="height: calc(100vh - 550px)">
     <p class="mb-3 font-bold text-center">PREDDICCIONES REALIZADAS</p>
     <!-- <p class="text-center">-----------</p> -->
     <!-- <p style="text-align: center; font-weight: bold;">PREDDICCIÓN AL 96%</p> -->
-    <div style="max-height: 300px; overflow: scroll;">
+    <div style="height: 90%; overflow-y: scroll;">
         <div *ngFor="let prediccion of preddicionesRealizadas" style="display: flex; justify-content: space-between; " class="mb-3" >
             <p>{{formatearFecha(prediccion.fechaCreacion)}}</p>
             <p>+{{prediccion?.output?.predict}} Meses</p>
@@ -44,11 +53,14 @@
     </div>
 </div>
 
-<a class="block text-center" target="_blank" href="https://forms.gle/dEQ3w8CTJZQ1NEkU6">Evalúa tu experiencia</a>
+<p-button  [disabled]="loading"  (onClick)="onClickNuevaPrediccion()" [style]="{'width.%': 100, 'color':'white'}" size="large" severity="info" label="Nueva predicción" />
 
 
-<div class="floating-button" >
+<!-- <a class="block text-center" target="_blank" href="https://forms.gle/dEQ3w8CTJZQ1NEkU6">Evalúa tu experiencia</a> -->
+
+
+<!-- <div class="floating-button" >
     <p-button  [disabled]="loading"  (onClick)="onClickNuevaPrediccion()" [style]="{'width.%': 100, 'color':'white'}" size="large" severity="info" label="Nueva predicción" />
-</div>
+</div> -->
 
 

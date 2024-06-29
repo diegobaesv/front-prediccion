@@ -16,7 +16,7 @@ export class SweetService {
             cancelButtonColor: "gray",
             confirmButtonText: "Si, seguro",
             cancelButtonText: "Cancelar"
-          }).then((result) => {
+          }).then((result:any) => {
             if (result.isConfirmed) {
                 onConfirm();
             }else{

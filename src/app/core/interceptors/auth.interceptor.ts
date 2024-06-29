@@ -9,12 +9,14 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
+      const sweet: SweetService = new SweetService();
       if(!error.url?.includes('www.googleapis.com')){
-        const sweet: SweetService = new SweetService();
-      sweet.showError(error.message)
+       
+      sweet.showError(`${error.message} - ${error.error?.message}`)
       }
       
       if (error.status === 401) {
+        sweet.showError(`${error.message} - ${error.error?.message}`)
         // Borrar la cache de localStorage
         localStorage.clear();
         // Redirigir al login

@@ -63,13 +63,19 @@ export class AuthCallbackComponent {
 
             if(this.errorMessages.length == 0) {
 
-                const resp = await this.usuariosGoogleService.updateOrCreate(userInfo);
+                const resp :any = await this.usuariosGoogleService.updateOrCreate(userInfo);
                 console.log('usuariosGoogleService::',resp);
                 
                 this.localCacheService.setItem(LOCALCACHE_USUARIOGOOGLE,resp);
                 this.localCacheService.setItem(LOCALCACHE_AUTH,authObj);
                 this.localCacheService.setItem(LOCALCACHE_USERINFO,userInfo);
-                this.router.navigate(['app/home']);
+
+                if(!resp.fechaNacimiento || !resp.peso || !resp.estatura){
+                    this.router.navigate(['app/profile']);
+                } else{
+                    this.router.navigate(['app/home']);
+                }
+                
             }
           });
       }

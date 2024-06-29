@@ -43,6 +43,7 @@ export class PredictionComponent implements OnInit {
 
   peso?: number;
   horasDormir?: number;
+  estatura?: number;
 
   predictValue?:number;
 
@@ -64,6 +65,7 @@ export class PredictionComponent implements OnInit {
     });
     this.usuarioGoogle =  this.localCacheService.getItem(LOCALCACHE_USUARIOGOOGLE);
     this.peso = this.usuarioGoogle.peso;
+    this.estatura = this.usuarioGoogle.estatura;
 
   }
 
@@ -72,6 +74,11 @@ export class PredictionComponent implements OnInit {
     this.sweetService.showConfirm('¿Deseas predecir ahora?', async () => {
       this.predictValue = undefined;
       this.error = '';
+
+      if (!this.estatura) {
+        this.error = 'Debe ingresar una estatura';
+        return;
+      }
 
       if (!this.peso) {
         this.error = 'Debe ingresar un peso';
@@ -117,7 +124,7 @@ export class PredictionComponent implements OnInit {
 
       const body = {
         age: this.calcularEdad(this.usuarioGoogle.fechaNacimiento),
-        height: this.usuarioGoogle.estatura,
+        height: this.estatura || 0,
         weight: this.peso || 0,
         pressure_level: this.presionArterialUlt?.value || 0,
         step_level: nivelPasos,
@@ -166,7 +173,7 @@ export class PredictionComponent implements OnInit {
 
 
   calcularEdad(fechaNacimiento: string): number {
-    if(fechaNacimiento.length == 0){
+    if (fechaNacimiento.length == 0) {
       return 0;
     }
 
@@ -182,11 +189,11 @@ export class PredictionComponent implements OnInit {
     const mesDiferencia = hoy.getMonth() - fechaNac.getMonth();
 
     if (mesDiferencia < 0 || (mesDiferencia === 0 && hoy.getDate() < fechaNac.getDate())) {
-        edad--;
+      edad--;
     }
 
     return edad;
-}
+  }
 
 
 }

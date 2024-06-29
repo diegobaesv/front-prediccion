@@ -19,6 +19,7 @@ export class AuthGuard implements CanActivate {
         state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
         const isAuthenticated = !!this.localCacheService.getItem(LOCALCACHE_AUTH)
         if (!isAuthenticated) {
+            console.log('EJECUTNAD GUARD')
             this.localCacheService.clear();
             this.router.navigate(['/app/login']);
         }
