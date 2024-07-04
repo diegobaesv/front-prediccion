@@ -31,9 +31,10 @@ export class GoogleApiService {
     }
 
     async getFitnessDatasets(token:string, dataSourceId: string[]): Promise<any> {
+        const day = 86400000;
         const body = {
             aggregateBy: dataSourceId.map((ds:string)=>{return {dataSourceId:ds}}),
-            bucketByTime: {durationMillis:86400000},
+            bucketByTime: {durationMillis:day},
             startTimeMillis: getAdjustedTime(-1*24*10),
             endTimeMillis: getAdjustedTime()
         }; 

@@ -44,6 +44,8 @@ export class PredictionComponent implements OnInit {
   peso?: number;
   horasDormir?: number;
   estatura?: number;
+  presionArterial?:number;
+  pasos?:number;
 
   predictValue?:number;
 
@@ -62,6 +64,9 @@ export class PredictionComponent implements OnInit {
 
       this.presionArterialUlt = values.presionArterial;
       this.pasosRealizadosUlt = values.pasosRealizados;
+
+      this.presionArterial = values.presionArterial.value;
+      this.pasos = values.pasosRealizados.value;
     });
     this.usuarioGoogle =  this.localCacheService.getItem(LOCALCACHE_USUARIOGOOGLE);
     this.peso = this.usuarioGoogle.peso;
@@ -74,6 +79,16 @@ export class PredictionComponent implements OnInit {
     this.sweetService.showConfirm('¿Deseas predecir ahora?', async () => {
       this.predictValue = undefined;
       this.error = '';
+
+      if(!this.presionArterial){
+        this.error = 'Debe ingresar una presión arterial';
+        return;
+      }
+
+      if(!this.pasos){
+        this.error = 'Debe ingresar cantidad pasos';
+        return;
+      }
 
       if (!this.estatura) {
         this.error = 'Debe ingresar una estatura';
@@ -111,7 +126,7 @@ export class PredictionComponent implements OnInit {
         return;
       }
 
-      const pasosRealizados = this.pasosRealizadosUlt?.value || 0;
+      const pasosRealizados = this.pasos || 0;
 
       let nivelPasos = 0;
       if (pasosRealizados < 3000) {
@@ -126,7 +141,7 @@ export class PredictionComponent implements OnInit {
         age: this.calcularEdad(this.usuarioGoogle.fechaNacimiento),
         height: this.estatura || 0,
         weight: this.peso || 0,
-        pressure_level: this.presionArterialUlt?.value || 0,
+        pressure_level: this.presionArterial || 0,
         step_level: nivelPasos,
         rest_level: this.horasDormir,
         smoking_consumption_level: this.getValorNivel(this.fumarValue),
